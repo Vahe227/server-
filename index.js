@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const origin = process.env.ORIGIN;
-const io = new Server(httpServer, {cors: { origin: origin }});
+const io = new Server(httpServer, {cors: { origin: origin },  pingInterval: 5000,pingTimeout: 10000});
 const port = process.env.PORT;
 
 let allCounts = {}  
@@ -24,12 +24,12 @@ io.on('connection', (socket) => {
 
     socket.on('increase-count', () => {
         console.log(allCounts[socket.id], 'increase-count');
-        allCounts(socket.id)++;
+        allCounts[socket.id]++;
 
         io.to('room').emit('update-count', allCounts);
     });
 
-    socket.on("disconnect", () => {
+    socket.on('disconnect', () => {
         delete allCounts[socket.id];
         socket.leave('room');
     });
