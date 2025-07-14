@@ -16,7 +16,7 @@ dotenv.config();
 // We design the brain of the server.
 
 const origin = process.env.ORIGIN;
-const io = new Server(httpServer, {cors: { origin: origin },  pingInterval: 5000,pingTimeout: 10000});
+const io = new Server(httpServer, {cors: { origin: origin }});
 const port = process.env.PORT || 3000;
 
 // Creating a variable allCounts for the number of customers
@@ -48,7 +48,10 @@ io.on('connection', (socket) => {
         socket.on('increase-count', () => {
             console.log(allCounts[socket.id], 'increase-count');
             allCounts[socket.id]++;
-
+            if(allCounts[socket.id] >= 30){
+                io.to('room').emit('winner', socket.id);
+                io.socketsLeave('room');
+            };
             io.to('room').emit('update-count', allCounts);
         });
 
