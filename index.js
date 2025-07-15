@@ -21,7 +21,7 @@ const port = process.env.PORT || 3000;
 
 // Creating a variable allCounts for the number of customers
 
-let allCounts = {}  
+let allCounts = {};
 
 // An IO connection is created which will perform some action once the client connects.
 
