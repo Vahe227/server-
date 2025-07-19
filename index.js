@@ -17,7 +17,7 @@ dotenv.config();
 
 const origin = process.env.ORIGIN;
 const io = new Server(httpServer, {cors: { origin: origin }});
-const port = process.env.PORT || 3000;
+const port = Number(process.env.PORT || 3000);
 
 // Creating a variable allCounts for the number of customers
 
